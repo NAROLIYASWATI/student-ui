@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class StudentService {
 
-  private apiUrl = 'http://localhost:8080/Students';
+  private apiUrl = 'http://localhost:8080/v1/personal-info';
 
   constructor(private http: Http) {
   }
