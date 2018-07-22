@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { StudentModule } from './student/student.module';
 import { HttpModule } from '@angular/http';
 import { StudentService } from './student/student.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,9 @@ import { StudentService } from './student/student.service';
     BrowserModule,
     StudentModule,
     AppRoutingModule,
-    HttpModule
+    HttpModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [StudentService],
   bootstrap: [AppComponent]
