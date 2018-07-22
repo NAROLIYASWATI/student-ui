@@ -37,8 +37,7 @@ export class StudentCreateComponent implements OnInit {
         }
         
         this.student=this.addStudentForm.value;
-        console.log(' final SUCCESS!! :- ' + JSON.stringify(this.student))
         this.studentService.student=this.student;
-        this.studentService.addStudent();
+        console.log("_________________"+JSON.stringify(this.studentService.addStudent()));
     }
 }
