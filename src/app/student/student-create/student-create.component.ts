@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { StudentService } from '../student.service';
 import { Student } from '../Student';
+import { Router } from '../../../../node_modules/@angular/router';
 
 @Component({
   selector: 'app-student-create',
@@ -14,11 +15,10 @@ export class StudentCreateComponent implements OnInit {
   private addStudentForm: FormGroup;
   private submitted = false;
 
-  constructor(private formBuilder: FormBuilder,private studentService: StudentService) { }
+  constructor(private formBuilder: FormBuilder,private studentService: StudentService, private router:Router) { }
 
   ngOnInit() {
     this.student=this.studentService.student;
-
     this.addStudentForm = this.formBuilder.group({
         sid: ['', [Validators.required, Validators.minLength(2)]],
         fname: ['', Validators.required],
@@ -39,5 +39,6 @@ export class StudentCreateComponent implements OnInit {
         this.student=this.addStudentForm.value;
         this.studentService.student=this.student;
         console.log("_________________"+JSON.stringify(this.studentService.addStudent()));
+        this.router.navigate(['/student']);
     }
 }
