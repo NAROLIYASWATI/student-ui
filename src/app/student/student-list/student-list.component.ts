@@ -12,24 +12,39 @@ import { Router } from '@angular/router';
 export class StudentListComponent implements OnInit {
 
   private students: Student[];
-  private student: Student;
 
   constructor(private studentService:StudentService, private router:Router) { }
 
-   ngOnInit() {
+  ngOnInit() {
      this.getAllUsers();
-     this.students=this.studentService.students;
-   }
+  }
 
-   getAllUsers(){
-     this.studentService.findAll();
-   }
+  getAllUsers(){
+     this.studentService.findAll()
+           .subscribe(
+        data=>{
+          this.students=data;
+        },
+        error => {
+            console.log("Error", error);
+        }
+    ); 
+  }
 
-   deleteStudent(student:Student){
-    this.studentService.student=student;
-    this.studentService.deleteStudentById();
-    this.students=this.studentService.students;
-   }
+  deleteStudent(student:Student){
+    this.studentService.deleteStudentById(student.sid)
+      .subscribe( successs=>{
+          let index = this.students.indexOf(student, 0);
+              if (index > -1)
+              {
+                  this.students.splice(index, 1);
+                  this.getAllUsers();
+              }
+            },error => {
+              console.log("Error", error);
+          }
+      );
+  }
 
   editStudent(student:Student){
     this.studentService.student=student;

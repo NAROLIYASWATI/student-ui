@@ -11,34 +11,41 @@ import { Router } from '../../../../node_modules/@angular/router';
 })
 export class StudentCreateComponent implements OnInit {
 
-  private student: Student;
-  private addStudentForm: FormGroup;
-  private submitted = false;
+    private student: Student;
+    private addStudentForm: FormGroup;
+    private submitted = false;
 
-  constructor(private formBuilder: FormBuilder,private studentService: StudentService, private router:Router) { }
+    constructor(private formBuilder: FormBuilder,private studentService: StudentService, private router:Router) { }
 
-  ngOnInit() {
-    this.student=this.studentService.student;
-    this.addStudentForm = this.formBuilder.group({
-        sid: ['', [Validators.required, Validators.minLength(2)]],
-        fname: ['', Validators.required],
-        lname: ['', Validators.required],
-        email: ['', [Validators.required, Validators.email]]
-    });
-  }
+    ngOnInit() {
+        this.student=this.studentService.student;
+        this.addStudentForm = this.formBuilder.group({
+            sid: ['', [Validators.required, Validators.minLength(2)]],
+            fname: ['', Validators.required],
+            lname: ['', Validators.required],
+            email: ['', [Validators.required, Validators.email]]
+        });
+    }
 
-  // convenience getter for easy access to form fields
-  get f() { return this.addStudentForm.controls; }
+    // convenience getter for easy access to form fields
+    get f() { return this.addStudentForm.controls; }
 
-  onSubmit() {
+    onSubmit() {
         this.submitted = true;
         if (this.addStudentForm.invalid) {
             return;
         }
-        
-        this.student=this.addStudentForm.value;
-        this.studentService.student=this.student;
-        console.log("_________________"+JSON.stringify(this.studentService.addStudent()));
+        this.studentService.student=this.addStudentForm.value;
+        this.studentService.addStudent().subscribe(
+                data => {
+                    console.log("POST Request is successful ", data);
+                    
+                },
+                error => {
+                    console.log("Error", error);
+                }
+            );
+        this.studentService.findAll();
         this.router.navigate(['/student']);
     }
 }
